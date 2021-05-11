@@ -1,4 +1,4 @@
-@startuml User
+@startuml Entity relationship User diagram
 entity User {
     * **id: number <<generated>>**
     --
