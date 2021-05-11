@@ -1,0 +1,4 @@
+-r requirements.txt
+
+pylint==2.8.2
+pylint-flask==0.6
