@@ -1,14 +1,23 @@
-#obtenemos la imagen de un kernel de Linux con python
+# Kernel image
 FROM python:3.8-alpine3.12
-#seleccionar la carpeta de usuario
+# Select workdir
 WORKDIR /app
-#copia la carpeta del proyecto a la imagen
+# Copy folder to image
 COPY ./app .
-#instala dependencias del sistema
-RUN apk add build-base
-#instala dependencias del proyecto
-RUN pip install --no-cache-dir -r requirements.txt
-#puerto por el que escucha la imagen
+# Install system dependencies
+RUN apk add postgresql-client && \
+    apk add build-base
+# Create a working directory.
+RUN mkdir deployment
+# Install VirtualEnv.
+RUN pip install virtualenv
+# Add requirements file.
+ADD requirements.txt /deployment/requirements.txt
+# Run VirtualEnv.
+RUN virtualenv /deployment/env/
+# Install dependencies
+RUN /deployment/env/bin/pip install -r /deployment/requirements.txt
+# Port
 EXPOSE 5000
-#ejecuta la aplicación
+# Run app
 CMD [ "python", "app.py" ]
